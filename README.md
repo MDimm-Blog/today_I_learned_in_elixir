@@ -3,16 +3,32 @@ basic things to bring up for discussion at jax.ex
 
 <hr>
 1.<br>
+
 I was having a problem calling ... c function
 to implement a test.
 ```
 ** (CompileError) test/plug_test.exs:6: undefined function c/1
 ```
+
+I figured it out!!
+
+In the test I had to call:
+
+ ```
+IEx.Helpers.c "filename"
+```
+ 
+instead of:
+```
+c "filename"
+```
+
 changing the test file to ex will not work as described by Jose Valim
 
 https://groups.google.com/forum/#!topic/elixir-lang-talk/M8hQumj_qF8
 http://elixir-lang.readthedocs.io/en/latest/technical/scoping.html
-```
+https://media.pragprog.com/titles/elixir/ElixirCheat.pdf
+https://hexdocs.pm/iex/IEx.Helpers.html#c/2```
 defmodule TicTacToeTest do
   use ExUnit.Case
 
@@ -52,5 +68,4 @@ Elixir can only *load* .beam files.
 For the stuff in lib, everything ending with .ex is compiled to .beam files when you run mix compile. That's why when you start your app or run tests, we can find those modules.
 
 However, for test, we don't compile the code, we load it dynamically. In this case, mix test is only going to load the test/test_helper.exs file and all files matching *_test.exs. Files in test are never compiled automatically (you could if you want) but it is easier to simply require the file with Code.require_file/1 as someone else posted.
-
 <hr>
